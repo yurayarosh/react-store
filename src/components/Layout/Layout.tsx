@@ -5,13 +5,23 @@ import Header from '../Header/Header'
 
 import styles from './Layout.module.scss'
 
-const Layout: FC<{ children: ReactNode }> = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode
+  SectionHero?: ReactNode
+}
+
+const Layout: FC<LayoutProps> = ({ children, SectionHero }) => {
   return (
-    <div className={classNames('out', styles.out)}>
-      <Header />
-      <main className={classNames('main', styles.main)}>{children}</main>
-      <Footer />
-    </div>
+    <>
+      <div className={classNames('out', styles.out, { [styles['has-hero']]: SectionHero })}>
+        <Header />
+
+        {SectionHero && SectionHero}
+
+        <main className={classNames('main', styles.main)}>{children}</main>
+        <Footer />
+      </div>
+    </>
   )
 }
 

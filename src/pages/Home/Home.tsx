@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import Layout from '../../components/Layout/Layout'
+import SectionHero from '../../components/Sections/SectionHero'
+import SectionTrands from '../../components/Sections/SectionTrands'
 
 const Home: FC = () => {
   return (
-    <Layout>
-      <div className="home-page">
-        <h1>home page</h1>
-      </div>
+    <Layout SectionHero={<SectionHero />}>
+      <SectionTrands />
     </Layout>
   )
 }
