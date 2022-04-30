@@ -8,7 +8,7 @@ import ProductCard from '../ProductCard/ProductCard'
 import styles from './SectionTrands.module.scss'
 
 interface SectionTrandsProps {
-  products: ProductsResponceData | null
+  products: ProductsResponceData | null | undefined
 }
 
 const SectionTrands: FC<SectionTrandsProps> = ({ products }) => {

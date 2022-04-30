@@ -13,11 +13,6 @@ const Home: FC = () => {
     dispatch(fetchProducts({ limit: 8 }))
   }, [])
 
-  // useEffect(() => {
-  //   console.log({ products })
-
-  // }, [products])
-
   return (
     <Layout SectionHero={<SectionHero />}>
       <SectionTrands products={products} />

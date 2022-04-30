@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import Logo from '../Logo/Logo'
+import Navigation from '../Navigation/Navigation'
 
 const Header: FC = () => {
   return (
@@ -6,48 +8,16 @@ const Header: FC = () => {
       <div className="container container--lg">
         <div className="header__inner">
           <div className="header__logo">
-            <a href="/" className="logo">
-              store logo
-            </a>
+            <Logo />
           </div>
           <div className="header__nav js-menu" data-menu="menu">
-            <button className="header__close close js-menu-close"></button>
+            <button
+              className="header__close close js-menu-close"
+              type="button"
+              aria-label="Toggle menu"
+            />
             <div className="header__nav-in">
-              <nav className="nav">
-                <ul>
-                  <li>
-                    <a href="#" className=" is-active">
-                      чоловіки
-                    </a>
-                    <ul>
-                      <li>
-                        <a href="#">Футболки та шорти</a>
-                      </li>
-                      <li>
-                        <a href="#">Курточки та жилетки</a>
-                      </li>
-                      <li>
-                        <a href="#">Кофти, штани та костюми</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="#">Жінки</a>
-                  </li>
-                  <li>
-                    <a href="#">діти</a>
-                  </li>
-                  <li>
-                    <a href="#">Лайфстайл</a>
-                  </li>
-                  <li>
-                    <a href="#">спорт</a>
-                  </li>
-                  <li>
-                    <a href="#">футбол</a>
-                  </li>
-                </ul>
-              </nav>
+              <Navigation />
             </div>
           </div>
           <div className="header__controls">

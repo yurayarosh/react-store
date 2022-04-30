@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IProduct, ProductsResponceData } from '../types/products'
+import { CategoriesResponceData, IProduct, ProductsResponceData } from '../types/products'
 import { ResponseStatuses } from '../utils'
 
 interface ProductFilters {
@@ -9,7 +9,7 @@ interface ProductFilters {
 }
 
 export const fetchProducts = createAsyncThunk(
-  'products/fetch',
+  'products/fetchAll',
   async (filters: ProductFilters | void = {}, thunkAPI) => {
     let paramsString = ''
 
@@ -34,29 +34,18 @@ export const fetchProducts = createAsyncThunk(
   }
 )
 
-// export const fetchProducts = (filters: ProductFilters = {}) => _fetchProducts(filters)
+export const fetchCategories = createAsyncThunk(
+  'products/fetchCategories',
+  async (_, thunkAPI) => {
+    try {
+      const response = await fetch(`https://api.storerestapi.com/categories`)
+      const data: CategoriesResponceData = await response.json()
 
-// export const fetchProducts = createAsyncThunk(
-//   'products/fetchAll',
-//   async (params = defaultParams, thunkAPI) => {
-//     params = { ...defaultParams, ...params }
-//     let paramsString = ''
-
-//     Object.keys(params).forEach((key, i) => {
-//       const value = Object.values(params)[i]
-
-//       paramsString += i === 0 ? `?${key}=${value}` : `&${key}=${value}`
-//     })
-
-//     console.log({ paramsString })
-
-//     try {
-//       const response = await fetch(`https://fakestoreapi.com/products${paramsString}`)
-//       const data: IProduct[] = await response.json()
-
-//       return data
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue('Fetching products error')
-//     }
-//   }
-// )
+      return data.status === ResponseStatuses.OK
+        ? data
+        : thunkAPI.rejectWithValue('Fetching products error')
+    } catch (e) {
+      return thunkAPI.rejectWithValue('Fetching products error')
+    }
+  }
+)

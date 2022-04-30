@@ -11,6 +11,8 @@
 //   }
 // }
 
+export type Id = string
+
 export interface ProductsResponceData {
   status: number
   message: string
@@ -23,20 +25,33 @@ export interface ProductsResponceData {
   }
 }
 
+export interface CategoriesResponceData {
+  status: number
+  message: string
+  data: ICategory[]
+  metadata?: {
+    currentPage: number
+    totalProducts: number
+    nextPage: number
+    totalPages: number
+  }
+}
+
 export interface IUser {
+  _id: Id
   role: string
-  _id: string
   name: string
 }
 
 export interface ICategory {
-  _id: string
+  _id: Id
   name: string
   slug: string
+  products?: Id[]
 }
 
 export interface IProduct {
-  _id: string
+  _id: Id
   title: string
   price: number
   description: string
@@ -50,6 +65,13 @@ export interface IProduct {
 
 export interface ProductsState {
   isLoading: boolean
-  products: ProductsResponceData | null
+  products?: ProductsResponceData | null
+  categories?: CategoriesResponceData | null
+  error?: string
+}
+
+export interface CategoriesState {
+  isLoading: boolean
+  categories: CategoriesResponceData | null
   error?: string
 }
