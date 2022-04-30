@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import Layout from '../../components/Layout/Layout'
 import SectionHero from '../../components/Sections/SectionHero'
 import SectionTrands from '../../components/Sections/SectionTrands'
@@ -10,7 +10,7 @@ const Home: FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchProducts())
+    dispatch(fetchProducts({ limit: 8 }))
   }, [])
 
   // useEffect(() => {

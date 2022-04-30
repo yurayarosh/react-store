@@ -1,14 +1,32 @@
 import classNames from 'classnames'
-import { FC } from 'react'
-import { useAppSelector } from '../../hooks/store'
-import { IProduct } from '../../store/types/products'
+import { FC, useEffect, useMemo, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { fetchProducts } from '../../store/slices/productsActions'
+import { IProduct, ProductsResponceData } from '../../store/types/products'
 import ProductCard from '../ProductCard/ProductCard'
 
+import styles from './SectionTrands.module.scss'
+
 interface SectionTrandsProps {
-  products: IProduct[] | null
+  products: ProductsResponceData | null
 }
 
 const SectionTrands: FC<SectionTrandsProps> = ({ products }) => {
+  const dispatch = useAppDispatch()
+  const { isLoading } = useAppSelector(state => state.products)
+
+  const nextPage = useMemo(() => products?.metadata?.nextPage, [products])
+
+  const [productsList, setproductsList] = useState<IProduct[]>(products?.data || [])
+
+  useEffect(() => {
+    if (products?.data) setproductsList([...productsList, ...products.data])
+  }, [products])
+
+  const onLoadMoreClick = () => {
+    dispatch(fetchProducts({ page: nextPage, limit: 8 }))
+  }
+
   return (
     <section className="section">
       <div className="container container--lg">
@@ -17,16 +35,24 @@ const SectionTrands: FC<SectionTrandsProps> = ({ products }) => {
         </div>
         <div className="section__items">
           <div className="grid">
-            {products ? (
-              products.map(product => <ProductCard key={product.id} product={product} />)
+            {productsList.length > 0 ? (
+              productsList.map(product => <ProductCard key={product._id} product={product} />)
             ) : (
               <div>loading...</div>
             )}
           </div>
         </div>
-        <div className="section__btn">
-          <button className="btn btn--transp-accent">Завантажити ще</button>
-        </div>
+        {nextPage && (
+          <div className="section__btn">
+            <button
+              className={classNames('btn btn--transp-accent', styles.btn)}
+              disabled={isLoading}
+              onClick={onLoadMoreClick}
+            >
+              Завантажити ще
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

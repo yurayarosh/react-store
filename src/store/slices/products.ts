@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../index'
-import { IProduct, ProductsState } from '../types/products'
+import { ProductsResponceData, ProductsState } from '../types/products'
 import { fetchProducts } from './productsActions'
 
 // Define the initial state using that type
@@ -15,7 +15,7 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchProducts.fulfilled.type]: (state, action: PayloadAction<IProduct[]>) => {
+    [fetchProducts.fulfilled.type]: (state, action: PayloadAction<ProductsResponceData>) => {
       state.isLoading = false
       state.products = action.payload
     },

@@ -9,7 +9,7 @@ interface ProductCardProps {
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   return (
-    <div key={product.id} className="_col _col-md-3 _col-sm-4 _col-xss-6">
+    <div className="_col _col-md-3 _col-sm-4 _col-xss-6">
       <div className="card">
         <div className="card__add">
           <label className="checkbox checkbox--icon">
@@ -28,7 +28,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
         <a href="#" className="card__inner">
           <span className={classNames('card__img', styles.img)}>
-            <img src={product.image} alt="" />
+            <img src={product.image || 'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg'} alt="" />
           </span>
           <span className="card__content">
             <span className="card__title">
