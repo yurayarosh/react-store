@@ -1,0 +1,49 @@
+.burger {
+  display: block !important;
+  z-index: 11;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+
+  background-color: #fff;
+  padding: 15px;
+
+  overflow: auto;
+  width: 100% !important;
+  text-align: center;
+
+  // visibility: visible !important;
+  // opacity: 1 !important;
+
+  &::before {
+    display: none !important;
+  }
+}
+
+.nav-inner {
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
+}
+
+.controls,
+.logo {
+  z-index: 11;
+}
+
+.controls {
+  margin-left: auto;
+}
+
+:global(.header-controls__item) {
+  margin-right: 15px;
+}

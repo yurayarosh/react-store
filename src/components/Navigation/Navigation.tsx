@@ -1,40 +1,28 @@
-import { FC } from 'react'
+import classNames from 'classnames'
+import { FC, useEffect, useMemo } from 'react'
+import { useAppSelector } from '../../hooks/store'
+
+import styles from './Navigation.module.scss'
 
 const Navigation: FC = () => {
+  const { categories } = useAppSelector(state => state.products)
+  const list = useMemo(() => {
+    return categories?.data.map(category => category)
+  }, [])
+
+  useEffect(() => {
+    console.log({ list })
+  }, [])
+
   return (
-    <nav className="nav">
+    <nav className={classNames('nav', styles.nav)}>
       <ul>
-        <li>
-          <a href="#" className=" is-active">
-            чоловіки
-          </a>
-          <ul>
-            <li>
-              <a href="#">Футболки та шорти</a>
+        {list &&
+          list?.map(({ name, _id }) => (
+            <li key={_id}>
+              <a href="#">{name}</a>
             </li>
-            <li>
-              <a href="#">Курточки та жилетки</a>
-            </li>
-            <li>
-              <a href="#">Кофти, штани та костюми</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Жінки</a>
-        </li>
-        <li>
-          <a href="#">діти</a>
-        </li>
-        <li>
-          <a href="#">Лайфстайл</a>
-        </li>
-        <li>
-          <a href="#">спорт</a>
-        </li>
-        <li>
-          <a href="#">футбол</a>
-        </li>
+          ))}
       </ul>
     </nav>
   )

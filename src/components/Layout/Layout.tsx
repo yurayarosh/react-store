@@ -15,13 +15,15 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({ children, SectionHero }) => {
   const dispatch = useAppDispatch()
 
-  const { categories } = useAppSelector(state => state.products)
+  const { categories, isLoading } = useAppSelector(state => state.products)
 
   useEffect(() => {
     dispatch(fetchCategories())
   }, [])
 
   // useEffect(() => {}, [categories])
+
+  if (isLoading) return <h1>loading...</h1>
 
   return (
     <>
