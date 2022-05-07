@@ -21,8 +21,10 @@
   width: 100% !important;
   text-align: center;
 
-  // visibility: visible !important;
-  // opacity: 1 !important;
+  font-size: inherit !important;
+
+  visibility: hidden;
+  opacity: 0;
 
   &::before {
     display: none !important;

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CategoriesResponceData, IProduct, ProductsResponceData } from '../types/products'
+import { CategoriesResponceData, ProductsResponceData } from '../types/products'
 import { ResponseStatuses } from '../utils'
 
 interface ProductFilters {

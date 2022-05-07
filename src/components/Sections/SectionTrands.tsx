@@ -8,24 +8,37 @@ import ProductCard from '../ProductCard/ProductCard'
 import styles from './SectionTrands.module.scss'
 
 interface SectionTrandsProps {
-  products: ProductsResponceData | null | undefined
+  products: ProductsResponceData
 }
 
-const SectionTrands: FC<SectionTrandsProps> = ({ products }) => {
+const PAGINATION_LIMIT: number = 8
+
+const SectionTrands: FC = () => {
   const dispatch = useAppDispatch()
-  const { isLoading } = useAppSelector(state => state.products)
+  const { isLoading, products } = useAppSelector(state => state.products)
 
   const nextPage = useMemo(() => products?.metadata?.nextPage, [products])
 
-  const [productsList, setproductsList] = useState<IProduct[]>(products?.data || [])
+  const [productsList, setProductsList] = useState<IProduct[]>([])
 
   useEffect(() => {
-    if (products?.data) setproductsList([...productsList, ...products.data])
+    if (products?.data) {
+      setProductsList([...productsList, ...products.data])
+
+      // productsList = [...productsList, ...products.data]
+    }
   }, [products])
 
+  useEffect(() => {
+    // productsList = [...products.data]
+    if (!products?.data) dispatch(fetchProducts({ limit: PAGINATION_LIMIT }))
+  }, [])
+
   const onLoadMoreClick = () => {
-    dispatch(fetchProducts({ page: nextPage, limit: 8 }))
+    dispatch(fetchProducts({ page: nextPage, limit: PAGINATION_LIMIT }))
   }
+
+  console.log('render', nextPage)
 
   return (
     <section className="section">

@@ -39,35 +39,20 @@ const Header: FC = () => {
             <Logo />
           </div>
 
-          {/* <Transition in={navIsOpen} timeout={300}>
-            {state => (
-              <div
-                className={classNames('header__nav', styles.nav)}
-                style={{
-                  ...defaultTransitionStyle,
-                  ...transitionStyles[state],
-                }}
-              >
-                <div className={classNames('header__nav-in', styles['nav-inner'])}>
-                  <Navigation />
-                </div>
-              </div>
-            )}
-          </Transition> */}
-
-          {navIsOpen && (
+          {
             <CSSTransition
+              in={navIsOpen}
               timeout={300}
               className={classNames('header__nav', styles.nav)}
               classNames="fade"
             >
-              {/* <div className={classNames('header__nav', styles.nav)}> */}
-              <div className={classNames('header__nav-in', styles['nav-inner'])}>
-                <Navigation />
+              <div>
+                <div className={classNames('header__nav-in', styles['nav-inner'])}>
+                  <Navigation />
+                </div>
               </div>
-              {/* </div> */}
             </CSSTransition>
-          )}
+          }
 
           <div className={classNames('header-controls', styles.controls)}>
             <div className="header-controls__item header-controls__search">

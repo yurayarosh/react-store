@@ -6,15 +6,23 @@ body,
 
 .fade-enter {
   opacity: 0;
+  visibility: hidden;
 }
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 300ms;
+  visibility: visible;
+  transition: opacity 300ms, visibility 300ms;
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 300ms;
+  visibility: hidden;
+  transition: opacity 300ms, visibility 300ms;
+}
+
+.fade-enter-done {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
