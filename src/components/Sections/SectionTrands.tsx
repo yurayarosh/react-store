@@ -1,13 +1,7 @@
 import { FC } from 'react'
 import ProductsList from '../ProductsList/ProductsList'
 
-// interface SectionTrandsProps {
-//   products: ProductsResponceData
-// }
-
 const SectionTrands: FC = () => {
-  console.log('render section')
-
   return (
     <section className="section">
       <div className="container container--lg">

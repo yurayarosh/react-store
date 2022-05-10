@@ -6,19 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { fetchProducts } from '../../store/slices/productsActions'
 
 const Home: FC = () => {
-  // const { isLoading, products, error } = useAppSelector(state => state.products)
-  // const dispatch = useAppDispatch()
-
-  // useEffect(() => {
-  //   dispatch(fetchProducts({ limit: 8 }))
-  // }, [])
-
-  console.log('render home page');
-  
-
   return (
     <Layout SectionHero={<SectionHero />}>
-      {/* {products && <SectionTrands products={products} />} */}
       <SectionTrands />
     </Layout>
   )

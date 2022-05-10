@@ -13,37 +13,38 @@ const ProductsList: FC = () => {
   const dispatch = useAppDispatch()
   const { isLoading, products } = useAppSelector(state => state.products)
 
-  const [productsList, setProductsList] = useState<IProduct[]>([])
+  const [nextPage, setNextPage] = useState<number | null>(1)
+  const [totlaPages, setTotalPages] = useState<number>(0)
 
-  const nextPage = useMemo(() => products?.metadata?.nextPage, [products])
-  const paginationLimit = useMemo(() => {
-    const totalProducts = products?.metadata?.totalProducts
-    if (!totalProducts) return PAGINATION_LIMIT
+  const productsList: IProduct[] = useMemo(() => {
+    if (products?.data) {
+      const start = nextPage ? (nextPage - 1) * PAGINATION_LIMIT : 0
+      const end = start + PAGINATION_LIMIT
 
-    const productsLeft = totalProducts - productsList.length
-
-    return productsLeft < PAGINATION_LIMIT ? productsLeft : PAGINATION_LIMIT
-  }, [products])
+      return nextPage ? products.data.slice(0, end) : products.data
+    }
+    return []
+  }, [products, nextPage])
 
   useEffect(() => {
     if (products?.data) {
-      setProductsList([...productsList, ...products.data])
-
-      // allProducts = [...allProducts, ...products.data]
-
-      // console.log({ allProducts })
+      setTotalPages(Math.ceil(products.data.length / PAGINATION_LIMIT))
     }
   }, [products])
 
   useEffect(() => {
     // productsList = [...products.data]
-    if (!products?.data) dispatch(fetchProducts({ page: 1, limit: PAGINATION_LIMIT }))
+    if (!products?.data) dispatch(fetchProducts())
   }, [])
 
   const onLoadMoreClick = () => {
-    console.log({ paginationLimit })
+    if (nextPage && nextPage < totlaPages - 1) {
+      setNextPage(nextPage + 1)
+    } else {
+      setNextPage(null)
+    }
 
-    dispatch(fetchProducts({ page: nextPage, limit: paginationLimit }))
+    // dispatch(fetchProducts({ page: nextPage, limit: paginationLimit }))
   }
   return (
     <>
