@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import productsReducer from './slices/products'
+import favoritesReducer from './slices/favorites'
 
 export const store = configureStore({
   reducer: {
     products: productsReducer,
+    favorites: favoritesReducer,
     // posts: postsReducer,
     // comments: commentsReducer,
     // users: usersReducer,

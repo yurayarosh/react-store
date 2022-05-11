@@ -1,5 +1,8 @@
 import classNames from 'classnames'
-import { FC } from 'react'
+import { ChangeEvent, FC, useMemo } from 'react'
+import { filterCurrency } from '../../helpers/helpers'
+import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { favoritesSlice } from '../../store/slices/favorites'
 import { IProduct } from '../../store/types/products'
 import styles from './ProductCard.module.scss'
 
@@ -8,12 +11,28 @@ interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
+  const dispatch = useAppDispatch()
+  const { products } = useAppSelector(state => state.favorites)
+
+  const isInFavoritesList: boolean = useMemo(() => {
+    return !!products.find(p => p._id === product._id)
+  }, [products])
+
+  const onAddToFavoritesChange = (product: IProduct) => (e: ChangeEvent<HTMLInputElement>) => {
+    const updatedFavorites = e.target.checked
+      ? [...products, product]
+      : products.filter(p => p._id !== product._id)
+
+    dispatch(favoritesSlice.actions.setFavorites(updatedFavorites))
+    localStorage.setItem('favorites', JSON.stringify(products))
+  }
+
   return (
     <div className="_col _col-md-3 _col-sm-4 _col-xss-6">
       <div className="card">
         <div className="card__add">
           <label className="checkbox checkbox--icon">
-            <input type="checkbox" />
+            <input type="checkbox" checked={isInFavoritesList} onChange={onAddToFavoritesChange(product)} />
             <span>
               <svg
                 viewBox="0 0 51.997 51.997"
@@ -28,14 +47,20 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
         <a href="#" className="card__inner">
           <span className={classNames('card__img', styles.img)}>
-            <img src={product.image || 'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg'} alt="" />
+            <img
+              src={
+                product.image ||
+                'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg'
+              }
+              alt=""
+            />
           </span>
           <span className="card__content">
             <span className="card__title">
               <span className="title title--h4">{product.title}</span>
             </span>
             {/* <span className="card__subttl">{product.}</span> */}
-            <span className="card__price price">{product.price}</span>
+            <span className="card__price price">{filterCurrency(product.price)}</span>
           </span>
         </a>
       </div>

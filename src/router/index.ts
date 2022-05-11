@@ -1,4 +1,5 @@
 import { ComponentType } from 'react'
+import Favorites from '../pages/Favorites/Favorites'
 import Home from '../pages/Home/Home'
 
 export interface IRoute {
@@ -8,12 +9,17 @@ export interface IRoute {
 
 export enum RouteNames {
   HOME = '/',
+  FAVORITES = '/favorites'
 }
 
 export const publicRoutes: IRoute[] = [
   {
     path: RouteNames.HOME,
     Component: Home,
+  },
+  {
+    path: RouteNames.FAVORITES,
+    Component: Favorites,
   },
 ]
 
