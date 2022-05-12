@@ -9,7 +9,7 @@ const initialState: ProductsState = {
   products: null,
 }
 
-export const counterSlice = createSlice({
+export const productsSlice = createSlice({
   name: 'products',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
@@ -45,4 +45,4 @@ export const counterSlice = createSlice({
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.products.value
 
-export default counterSlice.reducer
+export default productsSlice.reducer

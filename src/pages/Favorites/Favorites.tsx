@@ -1,10 +1,21 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import Layout from '../../components/Layout/Layout'
 import ProductCardHorizontal from '../../components/ProductCardHorizontal/ProductCardHorizontal'
-import { useAppSelector } from '../../hooks/store'
+import { filterCurrency } from '../../helpers/helpers'
+import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { setCart } from '../../store/slices/cartActions'
 
 const Favorites: FC = () => {
+  const dispatch = useAppDispatch()
   const { products } = useAppSelector(state => state.favorites)
+
+  const amount: number = useMemo(() => {
+    return products.reduce((sum, product) => sum + product.price, 0)
+  }, [products])
+
+  const onAddToCartButtonClick = () => {
+    dispatch(setCart(products))
+  }
 
   return (
     <Layout>
@@ -29,14 +40,20 @@ const Favorites: FC = () => {
                 </div>
                 <div className="cart-meta__amount">
                   <div>сума замовлення:</div>
-                  <div className="price price--inherit price--sm">9690,00 ₴</div>
+                  <div className="price price--inherit price--sm">{filterCurrency(amount)}</div>
                 </div>
                 <div className="cart-meta__amount-pay">
                   <div>До сплати:</div>
-                  <div className="price price--inherit price--fz">9690,00 ₴</div>
+                  <div className="price price--inherit price--fz">{filterCurrency(amount)}</div>
                 </div>
                 <div className="cart-meta__btn">
-                  <button className="btn btn--full btn--square">Додати до кошика</button>
+                  <button
+                    className="btn btn--full btn--square"
+                    type="button"
+                    onClick={onAddToCartButtonClick}
+                  >
+                    Додати до кошика
+                  </button>
                 </div>
               </div>
             </div>
