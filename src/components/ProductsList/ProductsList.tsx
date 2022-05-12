@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
-import { setFavorites } from '../../store/slices/favoritesActions'
 import { fetchProducts } from '../../store/slices/productsActions'
 import { IProduct } from '../../store/types/products'
 import ProductCard from '../ProductCard/ProductCard'
@@ -36,13 +35,6 @@ const ProductsList: FC = () => {
   useEffect(() => {
     // productsList = [...products.data]
     if (!products?.data) dispatch(fetchProducts())
-
-    const localFavorites = localStorage.getItem('favorites')
-
-    if (localFavorites) {
-      const list: IProduct[] = JSON.parse(localFavorites)
-      dispatch(setFavorites(list))
-    }
   }, [])
 
   const onLoadMoreClick = () => {

@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { ChangeEvent, FC, useEffect, useMemo } from 'react'
+import { ChangeEvent, FC, useMemo } from 'react'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { setFavorites } from '../../store/slices/favoritesActions'

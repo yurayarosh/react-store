@@ -1,22 +1,10 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import Layout from '../../components/Layout/Layout'
 import ProductCardHorizontal from '../../components/ProductCardHorizontal/ProductCardHorizontal'
-import { useAppDispatch, useAppSelector } from '../../hooks/store'
-import { setFavorites } from '../../store/slices/favoritesActions'
-import { IProduct } from '../../store/types/products'
+import { useAppSelector } from '../../hooks/store'
 
 const Favorites: FC = () => {
-  const dispatch = useAppDispatch()
   const { products } = useAppSelector(state => state.favorites)
-
-  useEffect(() => {
-    const localFavorites = localStorage.getItem('favorites')
-
-    if (localFavorites) {
-      const list: IProduct[] = JSON.parse(localFavorites)
-      dispatch(setFavorites(list))
-    }
-  }, [])
 
   return (
     <Layout>
