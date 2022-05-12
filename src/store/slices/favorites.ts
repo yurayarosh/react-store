@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FavoritesState } from '../types/favorites'
 import { IProduct } from '../types/products'
+import { setFavorites } from './favoritesActions'
 // import { CategoriesResponceData, ProductsResponceData, ProductsState } from '../types/products'
 // import { fetchCategories, fetchProducts } from './productsActions'
 
@@ -14,33 +15,17 @@ export const favoritesSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setFavorites: (state, action: PayloadAction<IProduct[]>) => {
-      state.products = action.payload
-    }
+    // setFavorites: (state, action: PayloadAction<IProduct[]>) => {
+    //   state.products = action.payload
+    // }
   },
   extraReducers: {
-    // [fetchProducts.fulfilled.type]: (state, action: PayloadAction<ProductsResponceData>) => {
-    //   state.isLoading = false
+    // [setFavorites.fulfilled.type]: (state, action: PayloadAction<IProduct[]>) => {
     //   state.products = action.payload
     // },
-    // [fetchProducts.pending.type]: state => {
-    //   state.isLoading = true
-    // },
-    // [fetchProducts.rejected.type]: (state, action: PayloadAction<string>) => {
-    //   state.isLoading = false
-    //   state.error = action.payload
-    // },
-    // [fetchCategories.fulfilled.type]: (state, action: PayloadAction<CategoriesResponceData>) => {
-    //   state.isLoading = false
-    //   state.categories = action.payload
-    // },
-    // [fetchCategories.pending.type]: state => {
-    //   state.isLoading = true
-    // },
-    // [fetchCategories.rejected.type]: (state, action: PayloadAction<string>) => {
-    //   state.isLoading = false
-    //   state.error = action.payload
-    // },
+    [setFavorites.type]: (state, action: PayloadAction<IProduct[]>) => {
+      state.products = action.payload
+    }
   },
 })
 

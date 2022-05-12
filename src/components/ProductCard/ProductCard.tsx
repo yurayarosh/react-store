@@ -1,8 +1,8 @@
 import classNames from 'classnames'
-import { ChangeEvent, FC, useMemo } from 'react'
+import { ChangeEvent, FC, useEffect, useMemo } from 'react'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
-import { favoritesSlice } from '../../store/slices/favorites'
+import { setFavorites } from '../../store/slices/favoritesActions'
 import { IProduct } from '../../store/types/products'
 import styles from './ProductCard.module.scss'
 
@@ -23,8 +23,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
       ? [...products, product]
       : products.filter(p => p._id !== product._id)
 
-    dispatch(favoritesSlice.actions.setFavorites(updatedFavorites))
-    localStorage.setItem('favorites', JSON.stringify(products))
+    dispatch(setFavorites(updatedFavorites))
   }
 
   return (
@@ -32,7 +31,11 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
       <div className="card">
         <div className="card__add">
           <label className="checkbox checkbox--icon">
-            <input type="checkbox" checked={isInFavoritesList} onChange={onAddToFavoritesChange(product)} />
+            <input
+              type="checkbox"
+              checked={isInFavoritesList}
+              onChange={onAddToFavoritesChange(product)}
+            />
             <span>
               <svg
                 viewBox="0 0 51.997 51.997"

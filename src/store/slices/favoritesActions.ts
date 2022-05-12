@@ -1,10 +1,10 @@
-import { AppDispatch } from '..'
+import { createAction } from '@reduxjs/toolkit'
 import { IProduct } from '../types/products'
-import { favoritesSlice } from './favorites'
 
-export const setFavorites = (products: IProduct[]) => (dispath: AppDispatch) => {
-  dispath(favoritesSlice.actions.setFavorites(products))
-  console.log('action');
-  
+export const setFavorites = createAction('favorites/set', (products: IProduct[]) => {
   localStorage.setItem('favorites', JSON.stringify(products))
-}
+
+  return {
+    payload: products,
+  }
+})
