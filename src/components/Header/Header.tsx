@@ -2,35 +2,31 @@ import classNames from 'classnames'
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CSSTransition, Transition } from 'react-transition-group'
+import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { RouteNames } from '../../router'
+import { setCartPopup } from '../../store/slices/popupActions'
+import CartPopup from '../CartPopup/CartPopup'
 
 import Logo from '../Logo/Logo'
 import Navigation from '../Navigation/Navigation'
 
 import styles from './Header.module.scss'
 
-interface ITransitionStyles {
-  [key: string]: object
-}
-
 const Header: FC = () => {
+  const dispatch = useAppDispatch()
+
+  const {
+    cart: { isOpen: cartIsOpen },
+  } = useAppSelector(state => state.popup)
+
   const [navIsOpen, setNavIsOpen] = useState<boolean>(false)
-
-  const duration = 300
-  const defaultTransitionStyle = {
-    transition: `opacity ${duration}ms ease-in-out`,
-    opacity: 0,
-  }
-
-  const transitionStyles: ITransitionStyles = {
-    entering: { opacity: 1 },
-    entered: { opacity: 1 },
-    exiting: { opacity: 0 },
-    exited: { opacity: 0 },
-  }
 
   const onBurgerClick = () => {
     setNavIsOpen(!navIsOpen)
+  }
+
+  const onOpenCartPopupButtonClick = () => {
+    dispatch(setCartPopup(true))
   }
 
   return (
@@ -41,20 +37,18 @@ const Header: FC = () => {
             <Logo />
           </div>
 
-          {
-            <CSSTransition
-              in={navIsOpen}
-              timeout={300}
-              className={classNames('header__nav', styles.nav)}
-              classNames="fade"
-            >
-              <div>
-                <div className={classNames('header__nav-in', styles['nav-inner'])}>
-                  <Navigation />
-                </div>
+          <CSSTransition
+            in={navIsOpen}
+            timeout={300}
+            className={classNames('header__nav', styles.nav)}
+            classNames="fade"
+          >
+            <div>
+              <div className={classNames('header__nav-in', styles['nav-inner'])}>
+                <Navigation />
               </div>
-            </CSSTransition>
-          }
+            </div>
+          </CSSTransition>
 
           <div className={classNames('header-controls', styles.controls)}>
             <div className="header-controls__item header-controls__search">
@@ -82,7 +76,7 @@ const Header: FC = () => {
               </Link>
             </div>
             <div className="header-controls__item header-controls__cart">
-              <button className="js-popup-open" data-popup-target="cart">
+              <button type="button" onClick={onOpenCartPopupButtonClick}>
                 <svg
                   viewBox="0 0 511.808 511.808"
                   className="icon icon-shopping-bag"
@@ -93,6 +87,12 @@ const Header: FC = () => {
                   <path d="M255.735 0c-70.576 0-128 57.44-128 128.032v63.776c0 8.832 7.168 16 16 16s16-7.168 16-16v-63.776c0-52.96 43.056-96.032 96-96.032s96 43.072 96 96.032v63.776c0 8.832 7.168 16 16 16s16-7.168 16-16v-63.776C383.735 57.44 326.311 0 255.735 0z" />
                 </svg>
               </button>
+
+              <CSSTransition in={cartIsOpen} timeout={300} classNames="fade">
+                {/* <div> */}
+                  <CartPopup />
+                {/* </div> */}
+              </CSSTransition>
             </div>
             <div className="header-controls__item">
               <button className="js-popup-open" data-popup-target="login">

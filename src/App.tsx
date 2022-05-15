@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import setHTMLClassNames from './assets/scripts/setHTMLClassNames'
 import AppRouter from './components/AppRouter/AppRouter'
 import { useAppDispatch } from './hooks/store'
 import { setCart } from './store/slices/cartActions'
@@ -11,6 +12,8 @@ function App() {
   const parseList = (str: string): IProduct[] => JSON.parse(str)
 
   useEffect(() => {
+    setHTMLClassNames()
+    
     dispatch(fetchCategories())
 
     const localFavorites = localStorage.getItem('favorites')
