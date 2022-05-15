@@ -25,6 +25,12 @@ export interface ProductsResponceData {
   }
 }
 
+export interface SingleProductResponceData {
+  status: number
+  message: string
+  data: IProduct
+}
+
 export interface CategoriesResponceData {
   status: number
   message: string
@@ -67,6 +73,7 @@ export interface ProductsState {
   isLoading: boolean
   products?: ProductsResponceData | null
   categories?: CategoriesResponceData | null
+  product?: SingleProductResponceData
   error?: string
 }
 

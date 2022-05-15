@@ -1,7 +1,9 @@
 import classNames from 'classnames'
 import { ChangeEvent, FC, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { RouteNames } from '../../router'
 import { setFavorites } from '../../store/slices/favoritesActions'
 import { IProduct } from '../../store/types/products'
 import styles from './ProductCard.module.scss'
@@ -48,7 +50,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             </span>
           </label>
         </div>
-        <a href="#" className="card__inner">
+        <Link to={`${RouteNames.PRODUCTS}/${product.slug}`} className="card__inner">
           <span className={classNames('card__img', styles.img)}>
             <img
               src={
@@ -65,7 +67,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             {/* <span className="card__subttl">{product.}</span> */}
             <span className="card__price price">{filterCurrency(product.price)}</span>
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   )

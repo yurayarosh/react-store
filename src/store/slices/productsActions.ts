@@ -1,5 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CategoriesResponceData, ProductsResponceData } from '../types/products'
+import {
+  CategoriesResponceData,
+  ProductsResponceData,
+  SingleProductResponceData,
+} from '../types/products'
 import { ResponseStatuses } from '../utils'
 
 interface ProductFilters {
@@ -34,18 +38,31 @@ export const fetchProducts = createAsyncThunk(
   }
 )
 
-export const fetchCategories = createAsyncThunk(
-  'products/fetchCategories',
-  async (_, thunkAPI) => {
+export const fetchSingleProduct = createAsyncThunk(
+  'products/fetchSingle',
+  async (slug: string, thunkAPI) => {
     try {
-      const response = await fetch(`https://api.storerestapi.com/categories`)
-      const data: CategoriesResponceData = await response.json()
+      const response = await fetch(`https://api.storerestapi.com/products/${slug}`)
+      const data: SingleProductResponceData = await response.json()
 
       return data.status === ResponseStatuses.OK
         ? data
-        : thunkAPI.rejectWithValue('Fetching products error')
+        : thunkAPI.rejectWithValue('Fetching single product error')
     } catch (e) {
-      return thunkAPI.rejectWithValue('Fetching products error')
+      return thunkAPI.rejectWithValue('Fetching single product error')
     }
   }
 )
+
+export const fetchCategories = createAsyncThunk('products/fetchCategories', async (_, thunkAPI) => {
+  try {
+    const response = await fetch(`https://api.storerestapi.com/categories`)
+    const data: CategoriesResponceData = await response.json()
+
+    return data.status === ResponseStatuses.OK
+      ? data
+      : thunkAPI.rejectWithValue('Fetching products error')
+  } catch (e) {
+    return thunkAPI.rejectWithValue('Fetching products error')
+  }
+})
