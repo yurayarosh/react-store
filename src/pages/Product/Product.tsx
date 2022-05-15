@@ -1,18 +1,40 @@
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
+import ProductsList from '../../components/ProductsList/ProductsList'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { setCart } from '../../store/slices/cartActions'
+import { setFavorites } from '../../store/slices/favoritesActions'
 import { fetchSingleProduct } from '../../store/slices/productsActions'
+import { IProduct } from '../../store/types/products'
 
 const Product: FC = () => {
   const dispatch = useAppDispatch()
   const { id } = useParams()
   const { product } = useAppSelector(state => state.products)
+  const { products: cartProducts } = useAppSelector(state => state.cart)
+  const { products: favoritesProducts } = useAppSelector(state => state.favorites)
+
+  const onAddToCartButtonClick = () => {
+    if (product) {
+      const newCart = [...cartProducts, product.data].reduce(
+        (arr: IProduct[], currProduct: IProduct) => {
+          return arr.includes(currProduct) ? arr : [...arr, currProduct]
+        },
+        []
+      )
+      dispatch(setCart(newCart))
+    }
+  }
+
+  const onAddToFavoritesButtonClick = () => {
+    if (product) dispatch(setFavorites([...favoritesProducts, product.data]))
+  }
 
   useEffect(() => {
     if (id) dispatch(fetchSingleProduct(id))
-  }, [])
+  }, [id])
 
   if (!product) return <h1>loading...</h1>
 
@@ -76,10 +98,20 @@ const Product: FC = () => {
                 </div>
                 <div className="product-descr__btns">
                   <div className="product-descr__btn-lg">
-                    <button className="btn btn--full btn--text btn--square">Додати у кошик</button>
+                    <button
+                      className="btn btn--full btn--text btn--square"
+                      type="button"
+                      onClick={onAddToCartButtonClick}
+                    >
+                      Додати у кошик
+                    </button>
                   </div>
                   <div className="product-descr__btn-sm">
-                    <button className="btn btn--full btn--text btn--square">
+                    <button
+                      className="btn btn--full btn--text btn--square"
+                      type="button"
+                      onClick={onAddToFavoritesButtonClick}
+                    >
                       <svg
                         viewBox="0 0 51.997 51.997"
                         className="icon icon-like"
@@ -407,12 +439,8 @@ const Product: FC = () => {
           <div className="section__title">
             <h3 className="title title--h3-sm">Також можуть сподобадится</h3>
           </div>
-          <div className="section__items">
-            <div className="grid"></div>
-          </div>
-          <div className="section__btn">
-            <button className="btn btn--transp-accent">Завантажити ще</button>
-          </div>
+
+          <ProductsList />
         </div>
       </section>
     </Layout>

@@ -56,7 +56,7 @@ export const fetchSingleProduct = createAsyncThunk(
 
 export const fetchCategories = createAsyncThunk('products/fetchCategories', async (_, thunkAPI) => {
   try {
-    const response = await fetch(`https://api.storerestapi.com/categories`)
+    const response = await fetch('https://api.storerestapi.com/categories')
     const data: CategoriesResponceData = await response.json()
 
     return data.status === ResponseStatuses.OK
