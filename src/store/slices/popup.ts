@@ -16,9 +16,6 @@ export const popupSlice = createSlice({
     [setCartPopup.type]: (state, action: PayloadAction<boolean>) => {
       state.cart.isOpen = action.payload
     },
-    // [setCart.type]: (state, action: PayloadAction<IProduct[]>) => {
-    //   state.products = action.payload
-    // },
   },
 })
 
