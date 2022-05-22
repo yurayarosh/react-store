@@ -75,10 +75,10 @@ const Product: FC = () => {
                 <div className="product-descr__block">
                   <div className="product-descr__block-title">Колір</div>
                   <div className="colors">
-                    {/* <div className="color" style="background-color: #154bc3;" />
-                    <div className="color" style="background-color: #cb0e33;" />
-                    <div className="color" style="background-color: #f4f4f4;" />
-                    <div className="color" style="background-color: #1f1f1f;" /> */}
+                    <div className="color" style={{ backgroundColor: '#154bc3' }} />
+                    <div className="color" style={{ backgroundColor: '#f4f4f4' }} />
+                    <div className="color" style={{ backgroundColor: '#1f1f1f' }} />
+                    <div className="color" style={{ backgroundColor: '#cb0e33' }} />
                   </div>
                 </div>
                 <div className="product-descr__block">
@@ -123,7 +123,7 @@ const Product: FC = () => {
                   <div className="product-descr__text">{product.data.description}</div>
                 )}
               </div>
-              <div className="product-meta js-accordion">
+              {/* <div className="product-meta js-accordion">
                 <div className="product-meta-block">
                   <button className="product-meta-block__title js-accordion-title">
                     <span className="title title--h4-lg">Доставка та оплата:</span>
@@ -424,7 +424,7 @@ const Product: FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

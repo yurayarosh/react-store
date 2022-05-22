@@ -1,13 +1,15 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { RouteNames } from '../../router'
 import { setCart } from '../../store/slices/cartActions'
 import { setFavorites } from '../../store/slices/favoritesActions'
 import { IProduct, ProductsLists } from '../../store/types/products'
 
 interface ProductCardHorizontalProps {
   product: IProduct
-  category: string
+  category: ProductsLists.FAVORITES | ProductsLists.CART
   type?: string
 }
 
@@ -40,7 +42,10 @@ const ProductCardHorizontal: FC<ProductCardHorizontalProps> = ({ product, type, 
 
   if (type === 'cart-popup')
     return (
-      <a href="#" className="header-cart__item cart-tooltip-item">
+      <Link
+        to={`${RouteNames.PRODUCTS}/${product.slug}`}
+        className="header-cart__item cart-tooltip-item"
+      >
         <span className="cart-tooltip-item__img">
           <img
             className=""
@@ -64,12 +69,12 @@ const ProductCardHorizontal: FC<ProductCardHorizontalProps> = ({ product, type, 
         <span className="cart-tooltip-item__price">
           <span className="price price--sm">{filterCurrency(product.price)}</span>
         </span>
-      </a>
+      </Link>
     )
 
   return (
     <div className="cart-item">
-      <a href="#" className="cart-item__inner">
+      <Link to={`${RouteNames.PRODUCTS}/${product.slug}`} className="cart-item__inner">
         <span className="cart-item__img">
           <img
             className=""
@@ -88,7 +93,7 @@ const ProductCardHorizontal: FC<ProductCardHorizontalProps> = ({ product, type, 
         <span className="cart-item__price">
           <span className="price price--md">{filterCurrency(product.price)}</span>
         </span>
-      </a>
+      </Link>
       <button
         className="cart-item__btn cart-item__del"
         type="button"
