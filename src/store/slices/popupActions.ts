@@ -5,3 +5,5 @@ export const setCartPopup = createAction('popup/cart', (isOpen: boolean) => {
     payload: isOpen,
   }
 })
+
+export const closeAllPopups = createAction('popup/closeAll')

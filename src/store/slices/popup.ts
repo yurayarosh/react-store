@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PopupState } from '../types/popup'
-import { setCartPopup } from './popupActions'
+import { closeAllPopups, setCartPopup } from './popupActions'
 
 const initialState: PopupState = {
   cart: {
@@ -15,6 +15,9 @@ export const popupSlice = createSlice({
   extraReducers: {
     [setCartPopup.type]: (state, action: PayloadAction<boolean>) => {
       state.cart.isOpen = action.payload
+    },
+    [closeAllPopups.type]: state => {
+      state.cart.isOpen = false
     },
   },
 })
