@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CSSTransition, Transition } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { RouteNames } from '../../router'
 import { setCartPopup } from '../../store/slices/popupActions'
@@ -18,6 +18,8 @@ const Header: FC = () => {
   const {
     cart: { isOpen: cartIsOpen },
   } = useAppSelector(state => state.popup)
+  const { products: favoritesProducts } = useAppSelector(state => state.favorites)
+  const { products: cartProducts } = useAppSelector(state => state.cart)
 
   const [navIsOpen, setNavIsOpen] = useState<boolean>(false)
 
@@ -65,6 +67,8 @@ const Header: FC = () => {
             </div>
             <div className="header-controls__item">
               <Link to={RouteNames.FAVORITES}>
+                {favoritesProducts.length > 0 && <sup>{favoritesProducts.length}</sup>}
+
                 <svg
                   viewBox="0 0 51.997 51.997"
                   className="icon icon-like"
@@ -77,6 +81,8 @@ const Header: FC = () => {
             </div>
             <div className="header-controls__item header-controls__cart">
               <button type="button" onClick={onOpenCartPopupButtonClick}>
+                {cartProducts.length > 0 && <sup>{cartProducts.length}</sup>}
+
                 <svg
                   viewBox="0 0 511.808 511.808"
                   className="icon icon-shopping-bag"
@@ -90,7 +96,7 @@ const Header: FC = () => {
 
               <CSSTransition in={cartIsOpen} timeout={300} classNames="fade">
                 {/* <div> */}
-                  <CartPopup />
+                <CartPopup />
                 {/* </div> */}
               </CSSTransition>
             </div>

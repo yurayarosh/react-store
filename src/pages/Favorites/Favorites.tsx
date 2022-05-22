@@ -5,6 +5,7 @@ import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { useProductsAmount } from '../../hooks/useProductsAmount'
 import { setCart } from '../../store/slices/cartActions'
+import { ProductsLists } from '../../store/types/products'
 
 const Favorites: FC = () => {
   const dispatch = useAppDispatch()
@@ -28,7 +29,11 @@ const Favorites: FC = () => {
             <div className="cart__items layout__left">
               {products.length > 0 &&
                 products.map(product => (
-                  <ProductCardHorizontal key={product._id} product={product} />
+                  <ProductCardHorizontal
+                    key={product._id}
+                    product={product}
+                    category={ProductsLists.FAVORITES}
+                  />
                 ))}
             </div>
             <div className="cart__meta layout__right">

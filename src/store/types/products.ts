@@ -11,6 +11,11 @@
 //   }
 // }
 
+export enum ProductsLists {
+  CART = 'CART',
+  FAVORITES = 'FAVORITES',
+}
+
 export type Id = string
 
 export interface ProductsResponceData {

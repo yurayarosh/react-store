@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { useProductsAmount } from '../../hooks/useProductsAmount'
 import { RouteNames } from '../../router'
 import { setCartPopup } from '../../store/slices/popupActions'
+import { ProductsLists } from '../../store/types/products'
 import ProductCardHorizontal from '../ProductCardHorizontal/ProductCardHorizontal'
 
 const CartPopup: FC = () => {
@@ -31,7 +32,12 @@ const CartPopup: FC = () => {
         <div className="header-cart__inner">
           <div className="header-cart__items">
             {products.map(product => (
-              <ProductCardHorizontal key={product._id} product={product} type="cart-popup" />
+              <ProductCardHorizontal
+                key={product._id}
+                product={product}
+                type="cart-popup"
+                category={ProductsLists.CART}
+              />
             ))}
           </div>
           <div className="header-cart__amount">

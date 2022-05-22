@@ -1,12 +1,13 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import Layout from '../../components/Layout/Layout'
 import ProductCardHorizontal from '../../components/ProductCardHorizontal/ProductCardHorizontal'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppSelector } from '../../hooks/store'
 import { useProductsAmount } from '../../hooks/useProductsAmount'
+import { ProductsLists } from '../../store/types/products'
 
 const Cart: FC = () => {
-  const { products } = useAppSelector(state => state.favorites)
+  const { products } = useAppSelector(state => state.cart)
   const amount: number = useProductsAmount(products)
 
   return (
@@ -22,7 +23,11 @@ const Cart: FC = () => {
             <div className="cart__items layout__left">
               {products.length > 0 &&
                 products.map(product => (
-                  <ProductCardHorizontal key={product._id} product={product} />
+                  <ProductCardHorizontal
+                    key={product._id}
+                    product={product}
+                    category={ProductsLists.CART}
+                  />
                 ))}
             </div>
             <div className="cart__meta layout__right">

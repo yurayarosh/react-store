@@ -1,13 +1,15 @@
+import classNames from 'classnames'
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import ProductsList from '../../components/ProductsList/ProductsList'
-import { filterCurrency } from '../../helpers/helpers'
+import { filterCurrency, getProductsListUpdate } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { setCart } from '../../store/slices/cartActions'
 import { setFavorites } from '../../store/slices/favoritesActions'
 import { fetchSingleProduct } from '../../store/slices/productsActions'
-import { IProduct } from '../../store/types/products'
+
+import styles from './Product.module.scss'
 
 const Product: FC = () => {
   const dispatch = useAppDispatch()
@@ -18,18 +20,16 @@ const Product: FC = () => {
 
   const onAddToCartButtonClick = () => {
     if (product) {
-      const newCart = [...cartProducts, product.data].reduce(
-        (arr: IProduct[], currProduct: IProduct) => {
-          return arr.includes(currProduct) ? arr : [...arr, currProduct]
-        },
-        []
-      )
+      const newCart = getProductsListUpdate(cartProducts, product.data)
       dispatch(setCart(newCart))
     }
   }
 
   const onAddToFavoritesButtonClick = () => {
-    if (product) dispatch(setFavorites([...favoritesProducts, product.data]))
+    if (product) {
+      const newFavorites = getProductsListUpdate(favoritesProducts, product.data)
+      dispatch(setFavorites(newFavorites))
+    }
   }
 
   useEffect(() => {
@@ -45,24 +45,19 @@ const Product: FC = () => {
           <div className="layout">
             <div className="layout__left">
               <div className="product-preview js-grid" data-scale="vertical">
-                <div className="product-img">
-                  <div
-                    className="product-img__img js-lazy"
-                    data-background-image="./img/cart-lg.jpg"
-                  ></div>
-                </div>
-                <div className="product-img">
-                  <div
-                    className="product-img__img js-lazy"
-                    data-background-image="./img/cart-lg.jpg"
-                  ></div>
-                </div>
-                <div className="product-img">
-                  <div
-                    className="product-img__img js-lazy"
-                    data-background-image="./img/cart-lg.jpg"
-                  ></div>
-                </div>
+                {[...Array(3)].map((el, i) => (
+                  <div key={i} className="product-img">
+                    <div className={classNames('product-img__img', styles.img)}>
+                      <img
+                        src={
+                          product.data.image ||
+                          'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg'
+                        }
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="layout__right">

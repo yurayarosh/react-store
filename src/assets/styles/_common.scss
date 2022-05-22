@@ -26,3 +26,18 @@ body,
   visibility: visible !important;
   opacity: 1 !important;
 }
+
+.header-controls {
+  &__item {
+    position: relative;
+
+    sup {
+      position: absolute;
+      font-size: 0.7em;
+      left: 100%;
+      bottom: 80%;
+
+      color: #db224d;
+    }
+  }
+}

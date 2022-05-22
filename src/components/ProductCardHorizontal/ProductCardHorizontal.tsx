@@ -1,22 +1,41 @@
 import { FC } from 'react'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { setCart } from '../../store/slices/cartActions'
 import { setFavorites } from '../../store/slices/favoritesActions'
-import { IProduct } from '../../store/types/products'
+import { IProduct, ProductsLists } from '../../store/types/products'
 
 interface ProductCardHorizontalProps {
   product: IProduct
+  category: string
   type?: string
 }
 
-const ProductCardHorizontal: FC<ProductCardHorizontalProps> = ({ product, type }) => {
+const ProductCardHorizontal: FC<ProductCardHorizontalProps> = ({ product, type, category }) => {
   const dispatch = useAppDispatch()
-  const { products } = useAppSelector(state => state.favorites)
+
+  const { products: favoritesProducts } = useAppSelector(state => state.favorites)
+  const { products: cartProducts } = useAppSelector(state => state.cart)
 
   const onDeleteItemClick = (product: IProduct) => () => {
-    const updatedFavorites = products.filter(p => p._id !== product._id)
+    let products: IProduct[] = []
 
-    dispatch(setFavorites(updatedFavorites))
+    switch (category) {
+      case ProductsLists.FAVORITES:
+        products = favoritesProducts
+        break
+      case ProductsLists.CART:
+        products = cartProducts
+        break
+
+      default:
+        products = favoritesProducts
+        break
+    }
+    const updatedProducts = products.filter(p => p._id !== product._id)
+
+    if (category === ProductsLists.FAVORITES) dispatch(setFavorites(updatedProducts))
+    if (category === ProductsLists.CART) dispatch(setCart(updatedProducts))
   }
 
   if (type === 'cart-popup')
