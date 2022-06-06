@@ -36,6 +36,17 @@ export interface SingleProductResponceData {
   data: IProduct
 }
 
+export interface SingleCategoryResponceData {
+  status: number
+  message: string
+  data: {
+    _id: Id
+    name: string
+    slug: string
+    products: IProduct[]
+  }
+}
+
 export interface CategoriesResponceData {
   status: number
   message: string
@@ -79,6 +90,7 @@ export interface ProductsState {
   products?: ProductsResponceData | null
   categories?: CategoriesResponceData | null
   product?: SingleProductResponceData
+  category?: SingleCategoryResponceData
   error?: string
 }
 

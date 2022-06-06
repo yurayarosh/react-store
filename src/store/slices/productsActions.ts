@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
   CategoriesResponceData,
   ProductsResponceData,
+  SingleCategoryResponceData,
   SingleProductResponceData,
 } from '../types/products'
 import { ResponseStatuses } from '../utils'
@@ -64,5 +65,18 @@ export const fetchCategories = createAsyncThunk('products/fetchCategories', asyn
       : thunkAPI.rejectWithValue('Fetching products error')
   } catch (e) {
     return thunkAPI.rejectWithValue('Fetching products error')
+  }
+})
+
+export const fetchCategory = createAsyncThunk('products/fetchCategory', async (category: string, thunkAPI) => {
+  try {
+    const response = await fetch(`https://api.storerestapi.com/categories/${category}`)
+    const data: SingleCategoryResponceData = await response.json()
+
+    return data.status === ResponseStatuses.OK
+      ? data
+      : thunkAPI.rejectWithValue('Fetching category error')
+  } catch (e) {
+    return thunkAPI.rejectWithValue('Fetching category error')
   }
 })

@@ -3,9 +3,10 @@ import {
   CategoriesResponceData,
   ProductsResponceData,
   ProductsState,
+  SingleCategoryResponceData,
   SingleProductResponceData,
 } from '../types/products'
-import { fetchCategories, fetchProducts, fetchSingleProduct } from './productsActions'
+import { fetchCategories, fetchCategory, fetchProducts, fetchSingleProduct } from './productsActions'
 
 const initialState: ProductsState = {
   isLoading: true,
@@ -37,6 +38,18 @@ export const productsSlice = createSlice({
       state.categories = action.payload
     },
     [fetchCategories.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
+
+    [fetchCategory.pending.type]: state => {
+      state.isLoading = true
+    },
+    [fetchCategory.fulfilled.type]: (state, action: PayloadAction<SingleCategoryResponceData>) => {
+      state.isLoading = false
+      state.category = action.payload
+    },
+    [fetchCategory.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
     },

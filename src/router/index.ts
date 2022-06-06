@@ -1,5 +1,6 @@
 import { ComponentType } from 'react'
 import Cart from '../pages/Cart/Cart'
+import Catalog from '../pages/Catalog/Catalog'
 import Favorites from '../pages/Favorites/Favorites'
 import Home from '../pages/Home/Home'
 import Product from '../pages/Product/Product'
@@ -14,6 +15,7 @@ export enum RouteNames {
   FAVORITES = '/favorites',
   CART = '/cart',
   PRODUCTS = '/products',
+  CATALOG = '/catalog',
 }
 
 export const publicRoutes: IRoute[] = [
@@ -28,6 +30,10 @@ export const publicRoutes: IRoute[] = [
   {
     path: RouteNames.CART,
     Component: Cart,
+  },
+  {
+    path: `${RouteNames.CATALOG}/:id`,
+    Component: Catalog,
   },
   {
     path: `${RouteNames.PRODUCTS}/:id`,

@@ -9,32 +9,42 @@ import styles from './ProductsList.module.scss'
 
 const PAGINATION_LIMIT: number = 8
 
-const ProductsList: FC = () => {
+interface ProductsListProps {
+  items?: IProduct[]
+}
+
+const ProductsList: FC<ProductsListProps> = ({ items } = {}) => {
   const dispatch = useAppDispatch()
   const { isLoading, products } = useAppSelector(state => state.products)
 
-  const [nextPage, setNextPage] = useState<number | null>(1)
+  const [nextPage, setNextPage] = useState<number | null>(null)
   const [totlaPages, setTotalPages] = useState<number>(0)
 
   const productsList: IProduct[] = useMemo(() => {
-    if (products?.data) {
+    const list = items || products?.data
+
+    if (list) {
       const start = nextPage ? (nextPage - 1) * PAGINATION_LIMIT : 0
       const end = start + PAGINATION_LIMIT
 
-      return nextPage ? products.data.slice(0, end) : products.data
+      return nextPage ? list.slice(0, end) : list
     }
     return []
   }, [products, nextPage])
 
   useEffect(() => {
+    if (items) return
     if (products?.data) {
-      setTotalPages(Math.ceil(products.data.length / PAGINATION_LIMIT))
+      const pagesLength = Math.ceil(products.data.length / PAGINATION_LIMIT)
+
+      setTotalPages(pagesLength)
+      if (pagesLength > 1) setNextPage(1)
     }
   }, [products])
 
   useEffect(() => {
     // productsList = [...products.data]
-    if (!products?.data) dispatch(fetchProducts())
+    if (!items && !products?.data) dispatch(fetchProducts())
   }, [])
 
   const onLoadMoreClick = () => {
