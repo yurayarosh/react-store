@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import ProductsList from '../../components/ProductsList/ProductsList'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
@@ -8,21 +8,53 @@ import { IProduct } from '../../store/types/products'
 
 const Catalog: FC = () => {
   const { id } = useParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const dispatch = useAppDispatch()
   const { category } = useAppSelector(state => state.products)
 
-  const [currentProducts, setCurreentproducts] = useState<IProduct[]>([])
+  const [currentProducts, setCurreentProducts] = useState<IProduct[]>([])
+  const [sortValue, setSortValue] = useState<string>('')
+
+  const handleQuery = (query: string) => {
+    setSortValue(query)
+  }
+
+  const onSortSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === 'placeholder') {
+      setSearchParams({})
+      setSortValue('')
+
+      return
+    }
+
+    const name = 'sort'
+    const value = e.target.value
+    setSearchParams({ [name]: value })
+    setSortValue(e.target.value)
+  }
 
   useEffect(() => {
     if (id) {
       dispatch(fetchCategory(id))
     }
+
+    const sortQuery = searchParams.get('sort')
+    if (sortQuery) handleQuery(sortQuery)
   }, [])
 
   useEffect(() => {
-    if (category) setCurreentproducts(category.data.products)
+    if (category) setCurreentProducts(category.data.products)
   }, [category])
+
+  useEffect(() => {
+    const list =
+      sortValue === 'price-up'
+        ? [...currentProducts].sort((a, b) => a.price - b.price)
+        : [...currentProducts].sort((a, b) => b.price - a.price)
+
+    setCurreentProducts(list)
+  }, [sortValue])
 
   return (
     <Layout>
@@ -36,7 +68,7 @@ const Catalog: FC = () => {
             </h3>
           </div>
           <div className="catalog-page__aside js-menu" data-menu="aside">
-            <aside className="aside js-sticky-polyfill">
+            <aside className="aside">
               <button className="aside__close close js-menu-close"></button>
               <div className="aside__title section__title">
                 <h3 className="title title--h3-sm">Каталог</h3>
@@ -181,15 +213,14 @@ const Catalog: FC = () => {
               <div className="catalog">
                 <div className="catalog__top">
                   <h3 className="title title--h3-sm">
-                    Жінки <span className="gray">(32)</span>
+                    Жінки <span className="gray">({currentProducts.length})</span>
                   </h3>
                   <div className="catalog__select">
                     <div className="select">
-                      <select className="js-select">
+                      <select onChange={onSortSelectChange} value={sortValue}>
                         <option value="placeholder">Сортировать</option>
-                        <option value="1">Сортировать1</option>
-                        <option value="3">Сортировать2</option>
-                        <option value="2">Сортировать3</option>
+                        <option value="price-up">Price up</option>
+                        <option value="price-down">Price down</option>
                       </select>
                     </div>
                   </div>
