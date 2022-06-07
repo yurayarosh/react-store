@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
+import Loader from '../../components/Loader/Loader'
 import ProductsList from '../../components/ProductsList/ProductsList'
 import { filterCurrency, getProductsListUpdate } from '../../helpers/helpers'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
@@ -36,7 +37,7 @@ const Product: FC = () => {
     if (id) dispatch(fetchSingleProduct(id))
   }, [id])
 
-  if (!product) return <h1>loading...</h1>
+  if (!product) return <Loader />
 
   return (
     <Layout>

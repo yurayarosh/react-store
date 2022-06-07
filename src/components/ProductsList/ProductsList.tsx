@@ -3,6 +3,7 @@ import { FC, useEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { fetchProducts } from '../../store/slices/productsActions'
 import { IProduct } from '../../store/types/products'
+import Loader from '../Loader/Loader'
 import ProductCard from '../ProductCard/ProductCard'
 
 import styles from './ProductsList.module.scss'
@@ -60,10 +61,10 @@ const ProductsList: FC<ProductsListProps> = ({ items } = {}) => {
     <>
       <div className="section__items">
         <div className="grid">
-          {productsList.length > 0 ? (
+          {productsList.length > 0 && !isLoading ? (
             productsList.map(product => <ProductCard key={product._id} product={product} />)
           ) : (
-            <div>loading...</div>
+            <Loader />
           )}
         </div>
       </div>

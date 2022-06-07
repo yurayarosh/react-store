@@ -1,10 +1,10 @@
-import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react'
+import classNames from 'classnames'
+import { ChangeEvent, FC, PointerEvent, useEffect, useMemo, useState } from 'react'
 import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import ProductsList from '../../components/ProductsList/ProductsList'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { fetchCategory } from '../../store/slices/productsActions'
-import { IProduct } from '../../store/types/products'
 
 const Catalog: FC = () => {
   const location = useLocation()
@@ -15,6 +15,7 @@ const Catalog: FC = () => {
   const { category } = useAppSelector(state => state.products)
 
   const [sortValue, setSortValue] = useState<string>('')
+  const [asideIsOpen, setAsideIsOpen] = useState<boolean>(false)
 
   const handleQuery = (query: string) => {
     setSortValue(query)
@@ -41,6 +42,13 @@ const Catalog: FC = () => {
     setSortValue(e.target.value)
   }
 
+  const onAsideBodyClick = (e: PointerEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement | HTMLLinkElement | HTMLSpanElement
+    const inner = target.closest('.aside')
+
+    if (!inner) setAsideIsOpen(false)
+  }
+
   const currentProducts = useMemo(() => {
     let list = category?.data.products || []
     if (sortValue && list.length > 0) {
@@ -52,6 +60,10 @@ const Catalog: FC = () => {
 
     return list
   }, [category, sortValue, location])
+
+  const h1 = useMemo(() => {
+    return category?.data.name || ''
+  }, [category, location])
 
   useEffect(() => {
     onInit()
@@ -67,19 +79,32 @@ const Catalog: FC = () => {
         <div className="catalog-page">
           <div className="catalog-page__aside-toggle">
             <h3 className="title title--h3-sm">
-              <button className="burger burger--arrow js-burger" data-menu-target="aside">
+              <button
+                className="burger burger--arrow js-burger"
+                data-menu-target="aside"
+                type="button"
+                onClick={() => setAsideIsOpen(!asideIsOpen)}
+              >
                 Каталог
               </button>
             </h3>
           </div>
-          <div className="catalog-page__aside js-menu" data-menu="aside">
+          <div
+            className={classNames('catalog-page__aside', { 'is-active': asideIsOpen })}
+            onClick={onAsideBodyClick}
+          >
             <aside className="aside">
-              <button className="aside__close close js-menu-close"></button>
+              <button
+                className="aside__close close"
+                type="button"
+                aria-label="Close menu"
+                onClick={() => setAsideIsOpen(false)}
+              />
               <div className="aside__title section__title">
                 <h3 className="title title--h3-sm">Каталог</h3>
               </div>
               <div className="aside__filter">
-                <div className="filters js-accordion">
+                {/* <div className="filters js-accordion">
                   <div className="filters-block">
                     <button className="filters-block__title js-accordion-title is-active">
                       <span className="title title--h6">Тип продукта:</span>
@@ -209,7 +234,7 @@ const Catalog: FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </aside>
           </div>
@@ -218,7 +243,7 @@ const Catalog: FC = () => {
               <div className="catalog">
                 <div className="catalog__top">
                   <h3 className="title title--h3-sm">
-                    Жінки <span className="gray">({currentProducts.length})</span>
+                    {h1} <span className="gray">({currentProducts.length})</span>
                   </h3>
                   <div className="catalog__select">
                     <div className="select">
