@@ -125,7 +125,7 @@ const Header: FC = () => {
           </div>
           <div className={classNames('header__burger', styles.burger)}>
             <button className="burger" aria-label="Toggle menu" onClick={onBurgerClick}>
-              <span></span>
+              <span />
             </button>
           </div>
         </div>

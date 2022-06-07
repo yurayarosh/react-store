@@ -1,9 +1,11 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import ProductCardHorizontal from '../../components/ProductCardHorizontal/ProductCardHorizontal'
 import { filterCurrency } from '../../helpers/helpers'
 import { useAppSelector } from '../../hooks/store'
 import { useProductsAmount } from '../../hooks/useProductsAmount'
+import { RouteNames } from '../../router'
 import { ProductsLists } from '../../store/types/products'
 
 const Cart: FC = () => {
@@ -44,7 +46,9 @@ const Cart: FC = () => {
                   <div className="price price--inherit price--fz">{filterCurrency(amount)}</div>
                 </div>
                 <div className="cart-meta__btn">
-                  <button className="btn btn--full btn--square">Оформити замовлення</button>
+                  <Link to={RouteNames.ORDER} className="btn btn--full btn--square">
+                    Оформити замовлення
+                  </Link>
                 </div>
               </div>
             </div>

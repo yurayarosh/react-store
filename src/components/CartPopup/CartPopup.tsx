@@ -49,9 +49,9 @@ const CartPopup: FC = () => {
             <div className="price price--inherit price--medium">{filterCurrency(amount)}</div>
           </div>
           <div className="header-cart__btn">
-            <a href="#" className="btn btn--full btn--square">
+            <Link to={RouteNames.ORDER} className="btn btn--full btn--square">
               Оформити замовлення
-            </a>
+            </Link>
           </div>
           <div className="header-cart__link">
             <Link to={RouteNames.CART} className="link-accent">
