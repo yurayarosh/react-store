@@ -30,7 +30,7 @@ const ProductsList: FC<ProductsListProps> = ({ items } = {}) => {
       return nextPage ? list.slice(0, end) : list
     }
     return []
-  }, [products, nextPage])
+  }, [products, nextPage, items])
 
   useEffect(() => {
     if (items) return

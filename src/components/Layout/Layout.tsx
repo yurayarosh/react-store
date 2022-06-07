@@ -16,7 +16,6 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({ children, SectionHero }) => {
   const dispatch = useAppDispatch()
   const popup = useAppSelector(state => state.popup)
-  
 
   const onOverlayClick = () => {
     dispatch(setCartPopup(false))

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
-import { FC, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { FC, useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { RouteNames } from '../../router'
@@ -14,6 +14,7 @@ import styles from './Header.module.scss'
 
 const Header: FC = () => {
   const dispatch = useAppDispatch()
+  const location = useLocation()
 
   const {
     cart: { isOpen: cartIsOpen },
@@ -30,6 +31,10 @@ const Header: FC = () => {
   const onOpenCartPopupButtonClick = () => {
     dispatch(setCartPopup(true))
   }
+
+  useEffect(() => {
+    setNavIsOpen(false)
+  }, [location])
 
   return (
     <header className="header">

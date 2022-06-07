@@ -1,5 +1,5 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import ProductsList from '../../components/ProductsList/ProductsList'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
@@ -7,17 +7,24 @@ import { fetchCategory } from '../../store/slices/productsActions'
 import { IProduct } from '../../store/types/products'
 
 const Catalog: FC = () => {
+  const location = useLocation()
   const { id } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const dispatch = useAppDispatch()
   const { category } = useAppSelector(state => state.products)
 
-  const [currentProducts, setCurreentProducts] = useState<IProduct[]>([])
   const [sortValue, setSortValue] = useState<string>('')
 
   const handleQuery = (query: string) => {
     setSortValue(query)
+  }
+
+  const onInit = () => {
+    if (id) dispatch(fetchCategory(id))
+
+    const sortQuery = searchParams.get('sort') || ''
+    handleQuery(sortQuery)
   }
 
   const onSortSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -34,27 +41,25 @@ const Catalog: FC = () => {
     setSortValue(e.target.value)
   }
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchCategory(id))
+  const currentProducts = useMemo(() => {
+    let list = category?.data.products || []
+    if (sortValue && list.length > 0) {
+      list =
+        sortValue === 'price-up'
+          ? [...list].sort((a, b) => a.price - b.price)
+          : [...list].sort((a, b) => b.price - a.price)
     }
 
-    const sortQuery = searchParams.get('sort')
-    if (sortQuery) handleQuery(sortQuery)
+    return list
+  }, [category, sortValue, location])
+
+  useEffect(() => {
+    onInit()
   }, [])
 
   useEffect(() => {
-    if (category) setCurreentProducts(category.data.products)
-  }, [category])
-
-  useEffect(() => {
-    const list =
-      sortValue === 'price-up'
-        ? [...currentProducts].sort((a, b) => a.price - b.price)
-        : [...currentProducts].sort((a, b) => b.price - a.price)
-
-    setCurreentProducts(list)
-  }, [sortValue])
+    onInit()
+  }, [location])
 
   return (
     <Layout>
