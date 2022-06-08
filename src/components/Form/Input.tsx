@@ -4,13 +4,19 @@ import {
   FC,
   FocusEvent,
   InputHTMLAttributes,
+  MutableRefObject,
   PointerEvent,
   useEffect,
   useId,
   useState,
 } from 'react'
+import { useIMask } from 'react-imask'
 // import { UID } from '../../../assets/scripts/helpers'
 // import { ErrorMessages } from '../../../assets/scripts/validation'
+
+const maskOpts = {
+  mask: '+{38\\0}(00)000-00-00',
+}
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -26,6 +32,7 @@ const Input: FC<IInput> = props => {
   const {
     className,
     value: inputValue = '',
+    type,
     children,
     label,
     hasError,
@@ -37,17 +44,26 @@ const Input: FC<IInput> = props => {
     ...attrs
   } = props
 
-  const [value, setValue] = useState<string | number>(inputValue)
+  // const [value, setValue] = useState<string | number>(inputValue)
   const [hasFocus, setFocus] = useState<boolean>(false)
   const uid = useId()
 
-  useEffect(() => {
-    setValue(inputValue)
-  }, [inputValue])
+  console.log({ type })
+  
+
+  const { maskRef, value, setValue, unmaskedValue, setUnmaskedValue, typedValue, setTypedValue } =
+    useIMask(maskOpts)
+  const phoneRef = useIMask(maskOpts).ref as MutableRefObject<HTMLInputElement>
+
+  // useEffect(() => {
+  //   setValue(inputValue)
+  // }, [inputValue])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     onCustomChange?.(e)
     setValue(e.target.value)
+
+    console.log(e.target.value)
   }
 
   const onFocus = (e: FocusEvent<HTMLInputElement>) => {
@@ -105,10 +121,11 @@ const Input: FC<IInput> = props => {
       </button>
       <input
         id={uid}
-        value={value}
+        // value={value}
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        ref={phoneRef}
         {...attrs}
       />
     </div>

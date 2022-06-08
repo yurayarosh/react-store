@@ -10,20 +10,7 @@ const OrderForm: FC = () => {
           <div className="form-block__content">
             <div className="grid">
               <div className="_col _col-xs-6">
-                {/* <div className="input input--sm">
-                  <button className="input__btn js-input-btn">
-                    <svg
-                      viewBox="0 0 47.971 47.971"
-                      className="icon icon-close"
-                      width="1.000em"
-                      height="1em"
-                    >
-                      <path d="M28.228 23.986L47.092 5.122a2.998 2.998 0 000-4.242 2.998 2.998 0 00-4.242 0L23.986 19.744 5.121.88a2.998 2.998 0 00-4.242 0 2.998 2.998 0 000 4.242l18.865 18.864L.879 42.85a2.998 2.998 0 104.242 4.241l18.865-18.864L42.85 47.091c.586.586 1.354.879 2.121.879s1.535-.293 2.121-.879a2.998 2.998 0 000-4.242L28.228 23.986z" />
-                    </svg>
-                  </button>
-                  <input className="js-input" type="text" value="Київ" />
-                </div> */}
-                <Input className="input--sm" type="text" />
+                <Input className="input--sm" type="text" value="Київ" />
               </div>
             </div>
           </div>
@@ -58,79 +45,24 @@ const OrderForm: FC = () => {
           <div className="form-block__content">
             <div className="grid">
               <div className="_col _col-xs-6">
-                <div className="input input--sm">
-                  <button className="input__btn js-input-btn">
-                    <svg
-                      viewBox="0 0 47.971 47.971"
-                      className="icon icon-close"
-                      width="1.000em"
-                      height="1em"
-                    >
-                      <path d="M28.228 23.986L47.092 5.122a2.998 2.998 0 000-4.242 2.998 2.998 0 00-4.242 0L23.986 19.744 5.121.88a2.998 2.998 0 00-4.242 0 2.998 2.998 0 000 4.242l18.865 18.864L.879 42.85a2.998 2.998 0 104.242 4.241l18.865-18.864L42.85 47.091c.586.586 1.354.879 2.121.879s1.535-.293 2.121-.879a2.998 2.998 0 000-4.242L28.228 23.986z" />
-                    </svg>
-                  </button>
-                  <input className="js-input" type="text" value="Василь" />
-                </div>
+                <Input className="input--sm" type="text" placeholder="Ім'я" value="Василь" />
               </div>
               <div className="_col _col-xs-6">
-                <div className="input input--sm">
-                  <button className="input__btn js-input-btn">
-                    <svg
-                      viewBox="0 0 47.971 47.971"
-                      className="icon icon-close"
-                      width="1.000em"
-                      height="1em"
-                    >
-                      <path d="M28.228 23.986L47.092 5.122a2.998 2.998 0 000-4.242 2.998 2.998 0 00-4.242 0L23.986 19.744 5.121.88a2.998 2.998 0 00-4.242 0 2.998 2.998 0 000 4.242l18.865 18.864L.879 42.85a2.998 2.998 0 104.242 4.241l18.865-18.864L42.85 47.091c.586.586 1.354.879 2.121.879s1.535-.293 2.121-.879a2.998 2.998 0 000-4.242L28.228 23.986z" />
-                    </svg>
-                  </button>
-                  <input className="js-input" type="text" value="Андрійович" />
-                </div>
+                <Input
+                  className="input--sm"
+                  type="text"
+                  placeholder="По батькові"
+                  value="Андрійович"
+                />
               </div>
               <div className="_col">
-                <div className="input input--sm">
-                  <button className="input__btn js-input-btn">
-                    <svg
-                      viewBox="0 0 47.971 47.971"
-                      className="icon icon-close"
-                      width="1.000em"
-                      height="1em"
-                    >
-                      <path d="M28.228 23.986L47.092 5.122a2.998 2.998 0 000-4.242 2.998 2.998 0 00-4.242 0L23.986 19.744 5.121.88a2.998 2.998 0 00-4.242 0 2.998 2.998 0 000 4.242l18.865 18.864L.879 42.85a2.998 2.998 0 104.242 4.241l18.865-18.864L42.85 47.091c.586.586 1.354.879 2.121.879s1.535-.293 2.121-.879a2.998 2.998 0 000-4.242L28.228 23.986z" />
-                    </svg>
-                  </button>
-                  <input className="js-input" type="text" placeholder="Прізвище" />
-                </div>
+                <Input className="input--sm" type="text" placeholder="Прізвище" />
               </div>
               <div className="_col">
-                <div className="input input--sm">
-                  <button className="input__btn js-input-btn">
-                    <svg
-                      viewBox="0 0 47.971 47.971"
-                      className="icon icon-close"
-                      width="1.000em"
-                      height="1em"
-                    >
-                      <path d="M28.228 23.986L47.092 5.122a2.998 2.998 0 000-4.242 2.998 2.998 0 00-4.242 0L23.986 19.744 5.121.88a2.998 2.998 0 00-4.242 0 2.998 2.998 0 000 4.242l18.865 18.864L.879 42.85a2.998 2.998 0 104.242 4.241l18.865-18.864L42.85 47.091c.586.586 1.354.879 2.121.879s1.535-.293 2.121-.879a2.998 2.998 0 000-4.242L28.228 23.986z" />
-                    </svg>
-                  </button>
-                  <input className="js-input" type="tel" placeholder="Телефон" />
-                </div>
+                <Input className="input--sm" type="tel" placeholder="Телефон" />
               </div>
               <div className="_col">
-                <div className="input input--sm">
-                  <button className="input__btn js-input-btn">
-                    <svg
-                      viewBox="0 0 47.971 47.971"
-                      className="icon icon-close"
-                      width="1.000em"
-                      height="1em"
-                    >
-                      <path d="M28.228 23.986L47.092 5.122a2.998 2.998 0 000-4.242 2.998 2.998 0 00-4.242 0L23.986 19.744 5.121.88a2.998 2.998 0 00-4.242 0 2.998 2.998 0 000 4.242l18.865 18.864L.879 42.85a2.998 2.998 0 104.242 4.241l18.865-18.864L42.85 47.091c.586.586 1.354.879 2.121.879s1.535-.293 2.121-.879a2.998 2.998 0 000-4.242L28.228 23.986z" />
-                    </svg>
-                  </button>
-                  <input className="js-input" type="email" placeholder="Ел. адреса" />
-                </div>
+                <Input className="input--sm" type="email" placeholder="Ел. адреса" />
               </div>
             </div>
           </div>
