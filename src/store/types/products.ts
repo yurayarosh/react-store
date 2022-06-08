@@ -88,14 +88,26 @@ export interface IProduct {
 export interface ProductsState {
   isLoading: boolean
   products?: ProductsResponceData | null
-  categories?: CategoriesResponceData | null
-  product?: SingleProductResponceData
-  category?: SingleCategoryResponceData
+  // categories?: CategoriesResponceData | null
+  // product?: SingleProductResponceData
+  // category?: SingleCategoryResponceData
+  error?: string
+}
+
+export interface SingleProductState {
+  isLoading: boolean
+  product?: SingleProductResponceData | null
   error?: string
 }
 
 export interface CategoriesState {
   isLoading: boolean
-  categories: CategoriesResponceData | null
+  categories?: CategoriesResponceData | null
+  error?: string
+}
+
+export interface SingleCategoryState {
+  isLoading: boolean
+  category?: SingleCategoryResponceData | null
   error?: string
 }

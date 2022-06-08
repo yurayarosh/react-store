@@ -1,16 +1,39 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
   CategoriesResponceData,
+  CategoriesState,
   ProductsResponceData,
   ProductsState,
   SingleCategoryResponceData,
+  SingleCategoryState,
   SingleProductResponceData,
+  SingleProductState,
 } from '../types/products'
-import { fetchCategories, fetchCategory, fetchProducts, fetchSingleProduct } from './productsActions'
+import {
+  fetchCategories,
+  fetchCategory,
+  fetchProducts,
+  fetchSingleProduct,
+} from './productsActions'
 
 const initialState: ProductsState = {
   isLoading: true,
   products: null,
+}
+
+const initialSingleProductState: SingleProductState = {
+  isLoading: true,
+  product: null,
+}
+
+const initialCategoriesState: CategoriesState = {
+  isLoading: true,
+  categories: null,
+}
+
+const initialSingleCategoryState: SingleCategoryState = {
+  isLoading: true,
+  category: null,
 }
 
 export const productsSlice = createSlice({
@@ -29,7 +52,36 @@ export const productsSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+  },
+})
 
+export const singleProductSlice = createSlice({
+  name: 'singleProduct',
+  initialState: initialSingleProductState,
+  reducers: {},
+  extraReducers: {
+    [fetchSingleProduct.pending.type]: state => {
+      state.isLoading = true
+    },
+    [fetchSingleProduct.fulfilled.type]: (
+      state,
+      action: PayloadAction<SingleProductResponceData>
+    ) => {
+      state.isLoading = false
+      state.product = action.payload
+    },
+    [fetchSingleProduct.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
+  },
+})
+
+export const categoriesSlice = createSlice({
+  name: 'categories',
+  initialState: initialCategoriesState,
+  reducers: {},
+  extraReducers: {
     [fetchCategories.pending.type]: state => {
       state.isLoading = true
     },
@@ -41,7 +93,14 @@ export const productsSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+  },
+})
 
+export const singleCategorySlice = createSlice({
+  name: 'singleCategory',
+  initialState: initialSingleCategoryState,
+  reducers: {},
+  extraReducers: {
     [fetchCategory.pending.type]: state => {
       state.isLoading = true
     },
@@ -53,22 +112,12 @@ export const productsSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
-
-    [fetchSingleProduct.pending.type]: state => {
-      state.isLoading = true
-    },
-    [fetchSingleProduct.fulfilled.type]: (
-      state,
-      action: PayloadAction<SingleProductResponceData>
-    ) => {
-      state.isLoading = true
-      state.product = action.payload
-    },
-    [fetchSingleProduct.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = true
-      state.error = action.payload
-    },
   },
 })
 
-export default productsSlice.reducer
+export default {
+  productsReducer: productsSlice.reducer,
+  singleProductReducer: singleProductSlice.reducer,
+  categoriesReducer: categoriesSlice.reducer,
+  singleCategoryReducer: singleCategorySlice.reducer,
+}

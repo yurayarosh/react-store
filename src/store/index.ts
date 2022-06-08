@@ -1,15 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
-import productsReducer from './slices/products'
+import products from './slices/products'
 import favoritesReducer from './slices/favorites'
 import cartReducer from './slices/cart'
 import popupReducer from './slices/popup'
 
 export const store = configureStore({
   reducer: {
-    products: productsReducer,
+    products: products.productsReducer,
+    singleProduct: products.singleProductReducer,
+    categories: products.categoriesReducer,
+    singleCategory: products.singleCategoryReducer,
     favorites: favoritesReducer,
     cart: cartReducer,
-    popup: popupReducer
+    popup: popupReducer,
     // posts: postsReducer,
     // comments: commentsReducer,
     // users: usersReducer,

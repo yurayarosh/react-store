@@ -12,7 +12,7 @@ const Catalog: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const dispatch = useAppDispatch()
-  const { category } = useAppSelector(state => state.products)
+  const { category } = useAppSelector(state => state.singleCategory)
 
   const [sortValue, setSortValue] = useState<string>('')
   const [asideIsOpen, setAsideIsOpen] = useState<boolean>(false)

@@ -7,7 +7,7 @@ import { RouteNames } from '../../router'
 import styles from './Navigation.module.scss'
 
 const Navigation: FC = () => {
-  const { categories } = useAppSelector(state => state.products)
+  const { categories } = useAppSelector(state => state.categories)
   const list = useMemo(() => {
     return categories?.data.map(category => category)
   }, [categories])
