@@ -1,9 +1,30 @@
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 import { FC } from 'react'
 import Input from '../Form/Input'
 
 const OrderForm: FC = () => {
+  const validationSchema = yup.object({
+    email: yup.string().email('Enter a valid email').required('Email is required'),
+    password: yup
+      .string()
+      .min(8, 'Password should be of minimum 8 characters length')
+      .required('Password is required'),
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: 'foobar',
+    },
+    validationSchema,
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2))
+    },
+  })
+
   return (
-    <form>
+    <form onSubmit={formik.handleSubmit}>
       <div className="form__blocks">
         <div className="form-block">
           <div className="form-block__title">Ваш населений пункт</div>
@@ -62,7 +83,15 @@ const OrderForm: FC = () => {
                 <Input className="input--sm" type="tel" placeholder="Телефон" />
               </div>
               <div className="_col">
-                <Input className="input--sm" type="email" placeholder="Ел. адреса" />
+                <Input
+                  className="input--sm"
+                  type="email"
+                  placeholder="Ел. адреса"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.email}
               </div>
             </div>
           </div>
@@ -94,9 +123,9 @@ const OrderForm: FC = () => {
         </div>
       </div>
       <div className="form__field">
-        <a href="#" className="btn btn--full btn--square btn--md">
+        <button className="btn btn--full btn--square btn--md" type="submit">
           Придбати
-        </a>
+        </button>
       </div>
     </form>
   )

@@ -4,8 +4,8 @@ import {
   FC,
   FocusEvent,
   InputHTMLAttributes,
+  MouseEvent,
   MutableRefObject,
-  PointerEvent,
   useEffect,
   useId,
   useState,
@@ -16,6 +16,7 @@ import { useIMask } from 'react-imask'
 
 const maskOpts = {
   mask: '+{38\\0}(00)000-00-00',
+  // mask: Number,
 }
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
@@ -44,26 +45,31 @@ const Input: FC<IInput> = props => {
     ...attrs
   } = props
 
-  // const [value, setValue] = useState<string | number>(inputValue)
+  const [opts, setOpts] = useState(maskOpts)
+
+  const [value, setValue] = useState<string | number>(inputValue)
   const [hasFocus, setFocus] = useState<boolean>(false)
   const uid = useId()
 
-  console.log({ type })
-  
+  // console.log({ type })
 
-  const { maskRef, value, setValue, unmaskedValue, setUnmaskedValue, typedValue, setTypedValue } =
-    useIMask(maskOpts)
-  const phoneRef = useIMask(maskOpts).ref as MutableRefObject<HTMLInputElement>
+  const {
+    maskRef,
+    // value, setValue,
+    unmaskedValue,
+    setUnmaskedValue,
+    typedValue,
+    setTypedValue,
+  } = useIMask(opts)
+  const phoneRef = useIMask(opts).ref as MutableRefObject<HTMLInputElement>
 
-  // useEffect(() => {
-  //   setValue(inputValue)
-  // }, [inputValue])
+  useEffect(() => {
+    setValue(inputValue)
+  }, [inputValue])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     onCustomChange?.(e)
     setValue(e.target.value)
-
-    console.log(e.target.value)
   }
 
   const onFocus = (e: FocusEvent<HTMLInputElement>) => {
@@ -76,9 +82,13 @@ const Input: FC<IInput> = props => {
     setFocus(false)
   }
 
-  const onClearButtonClick = (e: PointerEvent<HTMLButtonElement>) => {
+  const onClearButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setValue('')
+
+    if (phoneRef.current) phoneRef.current.value = ''
+
+    // console.log(phoneRef.current);
   }
 
   return (
@@ -121,11 +131,13 @@ const Input: FC<IInput> = props => {
       </button>
       <input
         id={uid}
-        // value={value}
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        ref={phoneRef}
+        {...{
+          ...(type === 'tel' ? { ref: phoneRef } : {}),
+          ...(type !== 'tel' ? { value } : {}),
+        }}
         {...attrs}
       />
     </div>
